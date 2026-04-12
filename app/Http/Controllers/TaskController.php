@@ -79,4 +79,18 @@ class TaskController extends Controller
             return response()->json(['message' => 'Something went wrong'], 500);
         }
     }
+    public function toggle(int $id)
+    {
+        try {
+            $task = Task::find($id);
+            if (!$task) {
+                throw new TaskNotFoundException();
+            }
+            $this->task_service->toggleTask($id);
+        } catch (TaskNotFoundException $ex) {
+            return response()->json(['message' => $ex->getMessage()], $ex->getCode());
+        } catch (Exception) {
+            return response()->json(['message' => 'Something went wrong'], 500);
+        }
+    }
 }

@@ -38,6 +38,7 @@ class TaskService
         $task->save();
         return $task;
     }
+
     public function deleteTask($task_id): void
     {
         $task = Task::find($task_id);
@@ -45,5 +46,16 @@ class TaskService
             throw new TaskNotFoundException();
         }
         $task->delete();
+    }
+
+    public function toggleTask($task_id): void
+    {
+
+        $task = Task::find($task_id);
+        if (!$task) {
+            throw new TaskNotFoundException();
+        }
+        $task->done = $task->done ? false : true;
+        $task->save();
     }
 }
